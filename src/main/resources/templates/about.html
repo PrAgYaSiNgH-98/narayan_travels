@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>About Us</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- Bootstrap CSS -->
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">    
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+</head>
+<body>
+    <!-- Include Navbar Fragment -->
+    <div th:replace="~{fragment::navbar}"></div>
+
+    <div class="container">
+        <!-- About Section -->
+        <section class="about-section">
+            <h1>About Us</h1>
+            <p>Welcome to TravelMate, your trusted partner for planning and booking travel experiences.</p>
+
+            <div class="about-text">
+                <h2>🌍 Our Mission</h2>
+                <p>Our mission is to provide seamless, personalized travel services, making your journey memorable and stress-free.</p>
+            </div>
+            
+            <div class="about-text">
+                <h2>✨ Why Choose Us?</h2>
+                <ul>
+                    <li><strong>💰 Affordable Rates:</strong> Get the best deals on travel.</li>
+                    <li><strong>🌎 Wide Range of Destinations:</strong> Explore the world with us.</li>
+                    <li><strong>💼 Personalized Service:</strong> Tailored solutions for your travel needs.</li>
+                    <li><strong>📞 24/7 Support:</strong> Our team is always available to assist you.</li>
+                </ul>
+            </div>
+
+            <div class="about-text">
+                <h2>👨‍💼 Meet Our Team</h2>
+                <div class="team">
+                    <div class="team-member">
+                        <img src="/images/team1.jpg" alt="Team Member">
+                        <h3>Pragya</h3>
+                        <p>CEO & Founder</p>
+                    </div>
+                    <div class="team-member">
+                        <img src="/images/team2.jpg" alt="Team Member">
+                        <h3>Pragya</h3>
+                        <p>Chief Travel Expert</p>
+                    </div>
+                    <div class="team-member">
+                        <img src="/images/team3.jpg" alt="Team Member">
+                        <h3>Pragya</h3>
+                        <p>Customer Success Manager</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+	<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+
+</body>
+</html>
+
+<!-- Include Footer -->
+<div th:replace="footer :: footer"></div>

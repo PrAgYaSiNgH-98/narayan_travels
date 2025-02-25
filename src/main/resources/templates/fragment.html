@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>    
+</head>
+<body>
+    <!-- Navbar Fragment -->
+    
+	<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-dark fixed-top custom-navbar">
+	        <a class="navbar-brand logo-text" href="#">M/S NARAYANA TRAVELS</a>
+	        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+	                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+	            <span class="navbar-toggler-icon"></span>
+	        </button>
+	        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+	            <ul class="navbar-nav text-uppercase">
+	                <li class="nav-item">
+	                    <a class="nav-link" th:href="@{/}" th:classappend="${activePage == 'home' ? 'active' : ''}">Home</a>
+	                </li>
+	                <li class="nav-item">
+	                    <a class="nav-link" th:href="@{/offers}" th:classappend="${activePage == 'offers' ? 'active' : ''}">Offers</a>
+	                </li>
+	               
+	                <li class="nav-item">
+	                    <a class="nav-link" th:href="@{/bookTrip}" th:classappend="${activePage == 'bookTrip' ? 'active' : ''}">Book Trip</a>
+	                </li>
+					
+					<li class="nav-item dropdown">
+					    <a class="nav-link dropdown-toggle" href="#" id="tripDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+					        Manage Trips
+					    </a>
+					    <ul class="dropdown-menu" aria-labelledby="tripDropdown">
+					        <li><a class="dropdown-item" th:href="@{/bookings}" th:classappend="${activePage == 'bookings' ? 'active' : ''}">Trip Bookings</a></li>
+					        <li><a class="dropdown-item" th:href="@{/trips}" th:classappend="${activePage == 'trips' ? 'active' : ''}">Trips</a></li>
+					        <li><a class="dropdown-item" th:href="@{/upload}" th:classappend="${activePage == 'upload' ? 'active' : ''}">Upload Gallery</a></li>
+							<li><a class="dropdown-item" th:href="@{/submit-trip}" th:classappend="${activePage == 'submit-trip' ? 'active' : ''}">Submit Trip</a></li>
+					    </ul>
+					</li>
+
+	            </ul>
+	    </div>
+	</nav>
+
+  <!-- FOOTER -->
+ 

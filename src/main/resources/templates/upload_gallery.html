@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Book Your Trip</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
+</head>
+<body class="bg-light">
+
+<div th:replace="~{fragment::navbar}"></div>
+
+<div class="container">
+    <h2 class="text-center">Upload the Gallery (Admin)</h2>
+
+    <div class="card shadow-lg p-4">
+        <!-- Success & Error Messages -->
+        <div th:if="${successMessage}" class="alert alert-success">
+            <span th:text="${successMessage}"></span>
+        </div>
+        <div th:if="${errorMessage}" class="alert alert-danger">
+            <span th:text="${errorMessage}"></span>
+        </div>
+
+        <!-- Upload Form -->
+        <form method="post" enctype="multipart/form-data" th:action="@{/uploadGallery}">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label">Description</label>
+                    <input type="text" name="description" class="form-control" placeholder="Enter Description" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Title</label>
+                    <input type="text" name="title" class="form-control" placeholder="Enter Title" required>
+                </div>
+            </div>
+
+            <div class="row g-3 mt-3">
+                <div class="col-md-6">
+                    <label class="form-label">Select Image</label>
+                    <input type="file" name="image" class="form-control" required>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <button type="submit" class="btn btn-primary w-100">Upload Gallery</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Display Table -->
+    <h2 class="text-center mt-4">Manage Uploaded Gallery</h2>
+    <div class="table-responsive table-container">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Image</th>
+					<th>Action edit</th>
+					<th>Action Delete</th>
+                </tr>
+            </thead>
+			<tbody>
+			            <tr th:each="gallery : ${galleryList}">
+			                <td th:text="${gallery.id}"></td>
+			                <td th:text="${gallery.title}"></td>
+			                <td th:text="${gallery.description}"></td>
+			                <td>
+			                    <img th:src="@{'/gallery/image/' + ${gallery.id}}" alt="Gallery Image" width="100">
+			                </td>
+							<td>
+							                                <!-- Edit Button -->
+															<form th:action="@{/uploadGallery/edit/{id}(id=${gallery.id})}" method="get">
+															    <button type="submit" class="btn btn-warning">Edit</button>
+															</form>
+
+							                            </td>
+							                            <td>
+							                                <!-- Delete Button -->
+															<form th:action="@{/uploadGallery/delete/{id}(id=${gallery.id})}" method="post"
+															      onsubmit="return confirm('Are you sure you want to delete this gallery?');">
+															    <button type="submit" class="btn btn-danger">Delete</button>
+															</form>
+
+							                            </td>
+			            </tr>
+			        </tbody>
+        </table>
+    </div>
+</div>
+
+<div th:replace="~{footer :: footer}"></div>
+
+</body>
+</html>

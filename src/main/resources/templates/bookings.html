@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Manage Trips</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <!-- jQuery and DataTables JS -->
+
+    <!-- DataTables Export Buttons -->
+
+    <!-- JSZip for Excel Export -->
+
+    <!-- PDFMake for PDF Export -->
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+	<link rel="stylesheet" th:href="@{/css/jquery.dataTables.min.css}">
+	<link rel="stylesheet" th:href="@{/css/jbuttons.dataTables.min.css}">
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+
+	
+	
+	<script th:src="@{/js/jquery-3.6.0.min.js}"></script>
+	<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+	<script th:src="@{/js/jquery.dataTables.min.js}"></script>
+	<script th:src="@{/js/dataTables.buttons.min.js}"></script>
+	<script th:src="@{/js/jszip.min.js}"></script>
+	<script th:src="@{/js/buttons.html5.min.js}"></script>
+	<script th:src="@{/js/vfs_fonts.js}"></script>
+
+
+
+
+    <style>
+      
+    </style>
+
+</head>
+<body>
+
+    <!-- Include Navbar -->
+    <div th:replace="~{fragment::navbar}"></div>
+
+    <div class="container">
+		<h2>See Your Bookings</h2>
+
+        <div class="table-container">
+            
+            <!-- Success & Error Messages -->
+            <div th:if="${successMessage}" class="alert alert-success text-center">
+                <span th:text="${successMessage}"></span>
+            </div>
+
+            <div th:if="${errorMessage}" class="alert alert-danger text-center">
+                <span th:text="${errorMessage}"></span>
+            </div>
+
+
+            <!-- Trip Data Table -->
+            <div class="table-responsive">
+                <table id="bookingTable" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Mobile</th>
+                            <th>Departure Date</th>
+                            <th>Return Date</th>
+                            <th>From Location</th>
+                            <th>To Location</th>
+                            <th>Number of Travelers</th>
+                            <th>Type of Vehicle</th>
+                            <th>No of Vehicle</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Loop through submitted bookings -->
+                        <tr th:each="booking : ${bookings}" th:id="'row-' + ${booking.id}">
+                            <td th:text="${booking.id}"></td>
+                            <td th:text="${booking.name}"></td>
+                            <td th:text="${booking.mobile}"></td>
+                            <td th:text="${booking.departureDate}"></td>
+                            <td th:text="${booking.returnDate}"></td>
+                            <td th:text="${booking.fromLocation}"></td>
+                            <td th:text="${booking.toLocation}"></td>
+                            <td th:text="${booking.numTravelers}"></td>
+                            <td th:text="${booking.typeVehical}"></td>
+                            <td th:text="${booking.noOfVehical}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('#bookingTable').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    {
+                        extend: 'excelHtml5',
+                        text: 'Export to Excel',
+                        className: 'btn btn-success'
+                    }
+                ],
+                responsive: true,
+                pageLength: 10
+            });
+        });
+    </script>
+
+</body>
+</html>
+
+<div th:replace="~{footer :: footer}"></div>

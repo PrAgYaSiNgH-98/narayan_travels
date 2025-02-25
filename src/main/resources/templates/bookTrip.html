@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Book Your Trip</title>
+    <link rel="stylesheet" href="/css/styles.css"> <!-- Link to your stylesheet -->
+
+
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{/css/style.css}">
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script th:src="@{/js/jquery-3.6.0.min.js}"></script></head>
+  <link rel="stylesheet" th:href="@{/css/tailwind.css}">
+  <div th:replace="~{fragment::navbar}"></div>
+
+ <body class="bg-light">
+
+      <div class="container">
+		<h2 class="text-center">Book Your Trip</h2>
+
+          <div class="card shadow-lg p-4">
+			
+              <!-- Success & Error Messages -->
+              <div th:if="${successMessage}" class="alert alert-success">
+                  <span th:text="${successMessage}"></span>
+              </div>
+              <div th:if="${errorMessage}" class="alert alert-danger">
+                  <span th:text="${errorMessage}"></span>
+              </div>
+
+              <!-- Booking Form -->
+              <form th:action="@{/bookTrip}" th:object="${bookTrip}" method="post">
+                  <div class="row g-3">
+					
+					    <div class="row g-3 mt-3">
+					          <div class="col-md-6">
+					              <label class="form-label">Your Name:</label>
+					              <input type="text" id="Name" name="Name" placeholder="Enter your Name" class="form-control" required>
+					          </div>
+					          <div class="col-md-6">
+					              <label class="form-label">Contact No:</label>
+					              <input type="text" id="Mobile" name="Mobile" placeholder="Enter Mobile No." class="form-control" required>
+					          </div>
+					      </div>
+						  
+                      <!-- From Location -->
+					  <div class="row g-3 mt-3">
+					       <div class="col-md-6">
+                          <label class="form-label">Departure From:</label>
+                          <select id="fromLocation" name="fromLocation" class="form-select" required>
+                              <option value="">Select Departure</option>
+                              <option value="Delhi">Delhi</option>
+                              <option value="Mumbai">Mumbai</option>
+                              <option value="Gorakhpur">Gorakhpur</option>
+                          </select>
+                      </div>
+					  
+                      <!-- To Location -->
+
+					  <div class="col-md-6">
+                          <label class="form-label">Going To:</label>
+                          <select id="toLocation" name="toLocation" class="form-select" required>
+                              <option value="">Select Destination</option>
+                              <option value="Delhi">Delhi</option>
+                              <option value="Mumbai">Mumbai</option>
+                              <option value="Gorakhpur">Gorakhpur</option>
+                          </select>
+                      </div>
+                  </div>
+
+                  <!-- Departure & Return Dates -->
+                  <div class="row g-3 mt-3">
+                      <div class="col-md-6">
+                          <label class="form-label">Departure Date:</label>
+                          <input type="date" id="departureDate" name="departureDate" class="form-control" required>
+                      </div>
+                      <div class="col-md-6">
+                          <label class="form-label">Return Date:</label>
+                          <input type="date" id="returnDate" name="returnDate" class="form-control" required>
+                      </div>
+                  </div>
+
+                  <!-- Travelers & Vehicle Type -->
+                  <div class="row g-3 mt-3">
+                      <div class="col-md-6">
+                          <label class="form-label">Travellers:</label>
+                          <select id="numTravelers" name="numTravelers" class="form-select" required>
+                              <option value="">Select No of Traveller</option>
+							  <option value="1">1 Traveller</option>
+                              <option value="2">2 Travellers</option>
+                              <option value="3">3 Travellers</option>
+                              <option value="4">4 Travellers</option>
+                              <option value="5">5 Travellers</option>
+							  <option value="10">More</option>
+                          </select>
+                      </div>
+                      <div class="col-md-6">
+                          <label class="form-label">Choose Vehicle:</label>
+                          <select id="typeVehical" name="typeVehical" class="form-select" required>
+                              <option value="">Select Vehicle Type</option>
+                              <option value="Sedan">Sedan</option>
+                              <option value="SUV">SUV</option>
+                              <option value="MUV">MUV</option>
+                              <option value="18-26 Seater">18-26 Seater</option>
+                          </select>
+                      </div>
+                  </div>
+				  
+				  <div class="row g-3 mt-3">
+				                        <div class="col-md-6">
+				                            <label class="form-label">No of Vehicals:</label>
+				                            <select id="noOfVehical" name="noOfVehical" class="form-select" required>
+				                                <option value="0">Select No of Vehical</option>
+												<option value="1">1 </option>
+				                                <option value="2">2 </option>
+				                                <option value="3">3 </option>
+				                                <option value="4">4 </option>
+				                                <option value="5">5 </option>
+												<option value="10">More</option>
+				                            </select>
+				                        </div>
+				                       
+				    </div>
+				  
+                  </div>
+                  <!-- Submit Button -->
+                  <div class="mt-4">
+                      <button type="submit" class="btn btn-primary w-100">
+                          Submit Booking
+                      </button>
+                  </div>
+              </form>
+          </div>
+      </div>
+
+      <!-- JavaScript -->
+      <script>
+          document.addEventListener("DOMContentLoaded", function() {
+              let departureDateInput = document.getElementById("departureDate");
+              let returnDateInput = document.getElementById("returnDate");
+
+              // Set minimum date for departure (today)
+              let today = new Date().toISOString().split("T")[0];
+              departureDateInput.setAttribute("min", today);
+
+              // Set return date logic
+              departureDateInput.addEventListener("change", function() {
+                  returnDateInput.setAttribute("min", departureDateInput.value);
+              });
+
+              // Swap button functionality
+              document.getElementById("swapLocations").addEventListener("click", function() {
+                  let fromSelect = document.getElementById("fromLocation");
+                  let toSelect = document.getElementById("toLocation");
+                  let tempValue = fromSelect.value;
+                  fromSelect.value = toSelect.value;
+                  toSelect.value = tempValue;
+              });
+          });
+      </script>
+  </body>
+
+</html>
+<div th:replace="~{footer :: footer}"></div>
+
+

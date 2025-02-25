@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit Gallery</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body class="bg-light">
+<div class="container">
+    <h2 class="text-center">Update Gallery Item</h2>
+
+    <div class="card shadow-lg p-4">
+		<form th:action="@{/uploadGallery/update/{id}(id=${gallery.id})}" 
+		      method="post" enctype="multipart/form-data">
+		    <input type="hidden" name="id" th:value="${gallery.id}" />
+
+		    <div class="mb-3">
+		        <label class="form-label">Title</label>
+		        <input type="text" name="title" class="form-control" th:value="${gallery.title}" required>
+		    </div>
+
+		    <div class="mb-3">
+		        <label class="form-label">Description</label>
+		        <input type="text" name="description" class="form-control" th:value="${gallery.description}" required>
+		    </div>
+
+			<div class="mb-3">
+			        <label class="form-label">Current Image</label>
+			        <br>
+			        <img th:if="${gallery.image}" th:src="@{/gallery/image/{id}(id=${gallery.id})}" 
+			             alt="Current Image" width="150">
+			    </div>
+
+			    <div class="mb-3">
+			        <label class="form-label">Upload New Image (optional)</label>
+			        <input type="file" name="image" class="form-control">
+			    </div>
+		    <button type="submit" class="btn btn-primary w-100">Update</button>
+		</form>
+    </div>
+</div>
+</body>
+</html>

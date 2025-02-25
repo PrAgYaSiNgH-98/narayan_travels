@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Exclusive Offers</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- Bootstrap & Owl Carousel CSS -->
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+	<link rel="stylesheet" th:href="@{/css/owl.carousel.min.css}">
+	<link rel="stylesheet" th:href="@{/css/owl.theme.default.min.css}">
+    <style>
+
+        /* Responsive Carousel */
+     
+    </style>
+</head>
+<body>
+
+    <!-- Include Navbar -->
+    <div th:replace="~{fragment::navbar}"></div>
+
+    <div class="container text-center">
+        <h2>Explore Our Trip Offers</h2>
+        <div class="carousel-container">
+            <div class="owl-carousel owl-theme">
+                <!-- Loop through trip offers -->
+                <div class="item" th:each="trip : ${tripOffers}">
+                    <div class="trip-card card shadow">
+                        <img th:src="'data:image/jpeg;base64,' + ${trip.base64Image}" 
+                             class="d-block w-100" 
+                             alt="Trip Image">
+                        <div class="card-body">
+                            <h5 th:text="${trip.location}"></h5>
+                            <p th:text="'Price: ₹' + ${trip.price}"></p>
+                            <a th:href="@{'/trip/details/' + ${trip.id}}" class="btn btn-primary btn-sm">View Details</a>
+                            <a href="/contact" class="btn btn-success btn-sm">Contact Us</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap & jQuery -->
+  
+	<script th:src="@{/js/jquery-3.6.0.min.js}"></script>
+		<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+		<script th:src="@{/js/custom.js}"></script> 
+		<script th:src="@{/js/owl.carousel.min.js}"></script> 
+    <script>
+		$(document).ready(function () {
+		    var owl = $(".owl-carousel");
+		    owl.owlCarousel({
+		        loop: true,
+		        margin: 20,
+		        nav: false, /* Disable default Owl Carousel nav */
+		        responsive: {
+		            0: { items: 1 },
+		            600: { items: 2 },
+		            1000: { items: 3 }
+		        }
+		    });
+
+		    // Custom navigation buttons
+		    $(".prev").click(function () {
+		        owl.trigger("prev.owl.carousel");
+		    });
+
+		    $(".next").click(function () {
+		        owl.trigger("next.owl.carousel");
+		    });
+		});
+
+    </script>
+
+    <!-- Include Footer -->
+    <div th:replace="~{footer :: footer}"></div>
+
+</body>
+</html>

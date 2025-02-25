@@ -1,0 +1,58 @@
+
+        
+			<!DOCTYPE html>
+			<html xmlns:th="http://www.thymeleaf.org">
+			<head>
+			    <title>Edit Trip</title>
+			    <link rel="stylesheet" href="/css/styles.css"> <!-- Link to your stylesheet -->
+				<style>
+				      
+				   </style>
+
+				   <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+			<link rel="stylesheet" th:href="@{/css/style.css}">
+			</head>
+			<body>
+			    <!-- Include Navbar Fragment -->
+				<div th:replace="~{fragment::navbar}"></div>
+
+				<div class="container">
+					<h2 class="text-center">Update Your Trip (admin)</h2>
+
+					<div th:if="${successMessage}" class="alert alert-success">
+					    <span th:text="${successMessage}"></span>
+					</div>
+
+					<div th:if="${errorMessage}" class="alert alert-danger">
+					    <span th:text="${errorMessage}"></span>
+					</div>
+				        <div class="form-container">
+							<form th:action="@{/update}" method="post" enctype="multipart/form-data">
+							            <input type="hidden" name="id" th:value="${trip.id}">
+				                
+				                <label for="location">Location</label>
+				                <input type="text" id="location" name="location"th:value="${trip.location}" placeholder="Enter location" >
+				                
+				                <label for="price">Price</label>
+				                <input type="number" id="price" name="price" step="0.01"th:value="${trip.price}" placeholder="Enter price" >
+				                
+								<label>Current Image</label><br>
+								 <img th:if="${trip.base64Image}" th:src="'data:image/jpeg;base64,' + ${trip.base64Image}" 
+								                 alt="Trip Image" class="img-fluid mb-3" style="max-width: 300px; border-radius: 10px;"><br>
+								
+								<label for="image">Upload New Image (Optional)</label>
+								<input type="file" id="image" name="image" class="form-control">
+				                
+								<label for="description">Description</label>
+				                <textarea name="description" rows="5" placeholder="Enter a brief description"th:value="${trip.description}" ></textarea>
+
+				                <button type="submit" class="submit-btn">Submit Trip</button>
+				            </form>
+				        </div>
+				    </div>
+				<div th:replace="~{footer :: footer}"></div>
+				<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+
+			</body>
+			</html>
+        

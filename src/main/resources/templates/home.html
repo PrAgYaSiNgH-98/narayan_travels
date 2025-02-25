@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Travel - Explore the World</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- Bootstrap & Owl Carousel CSS -->
+
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+	<link rel="stylesheet" th:href="@{/css/owl.carousel.min.css}">
+	<link rel="stylesheet" th:href="@{/css/owl.theme.default.min.css}">
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+
+	
+	
+	
+	<!-- JavaScript Files -->
+
+</head>
+<body>
+
+    <!-- Navbar -->
+    <div th:replace="~{fragment::navbar}"></div>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <div class="hero-content">
+            <h1 class="fw-bold">Discover Your Next Adventure</h1>
+            <p>Explore the world's most amazing destinations with us.</p>
+            <a href="/offers" class="btn btn-warning btn-lg">View Offers</a>
+			<a href="/bookTrip" class="btn btn-warning btn-lg">Book Your Trip</a>
+        </div>
+    </div>
+	<!-- TRIP OFFERS SECTION -->
+	<div class="container gallery-container">
+	    <h2 class=" text-center">Explore Our Trip Offers</h2>
+
+	    <div class="carousel-container">
+	        <div class="owl-carousel owl-theme">
+	            <!-- Loop through trip offers -->
+	            <div class="item" th:each="trip : ${tripOffers}">
+	                <div class="trip-card card shadow">
+	                    <p th:text="'Trip: ' + ${trip.location}"></p> <!-- Debug -->
+	                    <img th:if="${trip.base64Image != null}" 
+	                         th:src="'data:image/jpeg;base64,' + ${trip.base64Image}" 
+	                         class="d-block w-100" 
+	                         alt="Trip Image">
+	                    <div class="card-body">
+	                        <h5 th:text="${trip.location}"></h5>
+	                        <p th:text="'Price: ₹' + ${trip.price}"></p>
+	                        <a th:href="@{'/trip/details/' + ${trip.id}}" class="btn btn-primary btn-sm">View Details</a>
+	                        <a href="/contact" class="btn btn-success btn-sm">Contact Us</a>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+
+    <!-- Gallery Section -->
+    <div class="container gallery-container">
+        <h2 class="text-center">Our Gallery</h2>
+
+        <div class="row">
+            <div class="col-md-4 mb-3" th:each="gallery : ${galleries}">
+                <img th:src="'data:image/jpeg;base64,' + ${gallery.base64Image}" 
+                     th:alt="${gallery.title}"
+                     class="img-fluid gallery-item"
+                     th:attr="data-id=${gallery.id}, data-title=${gallery.title}, data-description=${gallery.description}, data-image='data:image/jpeg;base64,' + ${gallery.base64Image}"
+                     data-bs-toggle="modal" 
+                     data-bs-target="#galleryModal">
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap Modal for Image Popup -->
+    <div class="modal fade" id="galleryModal" tabindex="-1" aria-labelledby="galleryModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="galleryModalTitle"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <img id="galleryModalImage" class="img-fluid mb-3" alt="Gallery Image">
+                    <p id="galleryModalDescription"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+	<script th:src="@{/js/jquery-3.6.0.min.js}"></script>
+	<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+	<script th:src="@{/js/custom.js}"></script> 
+	<script th:src="@{/js/owl.carousel.min.js}"></script> 
+    <!-- Footer -->
+    <div th:replace="~{footer :: footer}"></div>
+	
+	    <script>
+			$(document).ready(function () {
+			    var owl = $(".owl-carousel");
+			    owl.owlCarousel({
+			        loop: true,
+			        margin: 20,
+			        nav: false, /* Disable default Owl Carousel nav */
+			        responsive: {
+			            0: { items: 1 },
+			            600: { items: 2 },
+			            1000: { items: 3 }
+			        }
+			    });
+
+			    // Custom navigation buttons
+			    $(".prev").click(function () {
+			        owl.trigger("prev.owl.carousel");
+			    });
+
+			    $(".next").click(function () {
+			        owl.trigger("next.owl.carousel");
+			    });
+			});
+
+	    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll(".gallery-item").forEach(item => {
+                item.addEventListener("click", function () {
+                    let title = this.getAttribute("data-title");
+                    let description = this.getAttribute("data-description");
+                    let image = this.getAttribute("data-image");
+
+                    // Set data in modal
+                    document.getElementById("galleryModalTitle").textContent = title;
+                    document.getElementById("galleryModalDescription").textContent = description;
+                    document.getElementById("galleryModalImage").setAttribute("src", image);
+                });
+            });
+
+            // Fix lingering modal backdrop
+            const galleryModal = document.getElementById("galleryModal");
+            galleryModal.addEventListener("hidden.bs.modal", function () {
+                document.body.classList.remove("modal-open");
+                document.querySelectorAll(".modal-backdrop").forEach(backdrop => backdrop.remove());
+            });
+        });
+    </script>
+
+</body>
+</html>
