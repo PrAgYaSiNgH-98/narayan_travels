@@ -1,0 +1,19 @@
+# Use an official OpenJDK runtime as a parent image
+FROM openjdk:17-jdk-alpine
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Copy Maven wrapper and project files to the container
+COPY mvnw pom.xml ./
+COPY .mvn .mvn
+COPY src src
+
+# Build the application
+RUN chmod +x mvnw && ./mvnw clean package -DskipTests
+
+# Expose the port your application will run on
+EXPOSE 8181
+
+# Run the application
+CMD ["java", "-jar", "target/*.jar"]
