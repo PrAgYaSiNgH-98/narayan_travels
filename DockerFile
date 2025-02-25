@@ -1,18 +1,22 @@
-# Use an official OpenJDK runtime as a parent image
+# Use the OpenJDK 17 JDK on Alpine Linux as the base image
 FROM openjdk:17-jdk-alpine
 
-# Set the working directory inside the container
+# Set JAVA_HOME and update PATH
+ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk
+ENV PATH=$JAVA_HOME/bin:$PATH
+
+# Set the working directory in the container
 WORKDIR /app
 
-# Copy Maven wrapper and project files to the container
+# Copy your project files
 COPY mvnw pom.xml ./
 COPY .mvn .mvn
 COPY src src
 
-# Build the application
+# Make sure the Maven wrapper is executable and build the project
 RUN chmod +x mvnw && ./mvnw clean package -DskipTests
 
-# Expose the port your application will run on
+# Expose the port your application runs on
 EXPOSE 8181
 
 # Run the application
